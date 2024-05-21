@@ -1,0 +1,39 @@
+<%= form_with(model: user, :id => 'user-workSaved') do |form| %>
+  <% if user.errors.any? %>
+    <div style="color: red" class= "container">
+      <h2 class=""><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+        <% user.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+<div class = "container">
+  <div class = "col"
+    <div class= "col">
+      <%= form.label :name, style: "display: block" %>
+      <%= form.text_field :name %>
+    </div>
+
+    <div class= "row">
+      <%= form.label :email, style: "display: block" %>
+    </div>
+    <div class= "row-6">    
+      <%= form.text_field :email %>
+    </div>
+  
+    <div class= "row">
+      <%= form.label :Country, style: "display: block" %>
+    </div>
+        
+    <div class= "form-group col-md-4">    
+      <%= form.select :location_id, @locations.all.collect {|p| [ p.name, p.id ] } %> <!-- needs to fix for errors-->
+    </div>
+  
+  <div class="submit">
+    <%= form.submit :Submit, class: 'btn btn-success'  %>
+  </div>
+</div>
+<% end %>

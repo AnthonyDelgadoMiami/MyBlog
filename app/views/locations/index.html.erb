@@ -1,0 +1,45 @@
+
+<div class = "">
+  <div class="d-flex flex-row-reverse">
+    <div class="p-2"><%= render "shared/search", place: @locations, place_path: locations_path%></div>
+    <div class = ""><%= link_to "New location", new_location_path, :class => "btn btn-primary" %>  </div>
+  </div>
+</div>
+
+
+<div class="">
+  <div class = "">
+    <%= form_tag destroy_multiple_locations_path, method: :delete, :id => 'user-delete-form', :form_class => 'delete-form' do %>
+    <table class = "table table-striped">
+      <tr>
+        <th scope = 'col' class="text-center col-1"><%= submit_tag "Delete", :class=> "text-white btn btn-danger", id: 'delete-button' %></th>
+        
+        <th scope = 'col'><%= link_to "ID", { sort: 'id', direction: toggle_direction('id'), search: params[:search] }, class: sort_link_class('id', @sort_column, @sort_direction) %></th>
+        
+        <th scope = 'col'><%= link_to "NAME", { sort: 'name', direction: toggle_direction('name'), search: params[:search] }, class: sort_link_class('name', @sort_column, @sort_direction) %></th>
+        
+        <th scope = 'col' colspan= '1' class="text-center col-2" >OPERATIONS</th>
+      
+      </tr>
+       <% @locations.all.each do |location| %>
+      <tr class = "table-secondary">
+        <td align = center><%= check_box_tag "locations[]", location.id %></td>
+        <td align = left><%= location.id %></td>
+        <td align = left><%= location.name %></td>
+        <td align = center><%= link_to "Show", location_path(location), method: :get, class: "link-underline link-underline-opacity-0" %>
+        &#160;&#160;&#160;&#160;&#160;
+        <%= link_to "Edit", edit_location_path(location), method: :get, class: "link-underline link-underline-opacity-0" %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+  <% end %>
+</div>
+</div>
+
+
+
+
+        
+
+
