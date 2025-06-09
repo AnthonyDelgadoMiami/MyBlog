@@ -1,45 +1,53 @@
-<%= form_with(model: user, :id => 'user-workSaved') do |form| %>
+<%= form_with(model: user, id: 'user-workSaved', local: true) do |form| %>
   <% if user.errors.any? %>
-    <div style="color: red" class= "container">
-      <h2 class=""><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
-
-      <ul>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h4>
+      <ul class="mb-0">
         <% user.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
-<div class = "container">
-  <div class = "col"
-    <div class= "col">
-      <%= form.label :name, style: "display: block" %>
-      <%= form.text_field :name %>
-    </div>
 
-    <div class= "row">
-      <%= form.label :email, style: "display: block" %>
+  <div class="card">
+    <div class="card-header">
+      <h3 class="mb-0">User Information</h3>
     </div>
-    <div class= "row-6">    
-      <%= form.text_field :email %>
-    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= form.label :name, class: "form-label" %>
+            <%= form.text_field :name, class: "form-control", placeholder: "Enter full name" %>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= form.label :username, class: "form-label" %>
+            <%= form.text_field :username, class: "form-control", placeholder: "Choose a username" %>
+          </div>
+        </div>
+      </div>
 
-    <div class= "row">
-      <%= form.label :username, style: "display: block" %>
-    </div>
-    <div class= "row-6">    
-      <%= form.text_field :username %>
-    </div>
+      <div class="form-group">
+        <%= form.label :email, class: "form-label" %>
+        <%= form.email_field :email, class: "form-control", placeholder: "Enter email address" %>
+      </div>
 
-  <div class="form-group row">
-    <%= form.label :password, class: "col-2 col-form-label text-light" %>
-    <div class="col-10">
-      <%= form.password_field :password, class: "form-control shadow rounded", placeholder: "Choose a password" %>
+      <div class="form-group">
+        <%= form.label :password, class: "form-label" %>
+        <%= form.password_field :password, class: "form-control", placeholder: "Choose a secure password" %>
+      </div>
+    </div>
+    
+    <div class="card-footer">
+      <div class="d-flex justify-content-between">
+        <%= link_to "Cancel", user_path(user), class: "btn btn-secondary" if user.persisted? %>
+        <%= link_to "Cancel", users_path, class: "btn btn-secondary" unless user.persisted? %>
+        <%= form.submit user.persisted? ? "Update Profile" : "Create Account", class: "btn btn-primary" %>
+      </div>
     </div>
   </div>
-
-  <div class="submit">
-    <%= form.submit :Submit, class: 'btn btn-success'  %>
-  </div>
-</div>
 <% end %>
