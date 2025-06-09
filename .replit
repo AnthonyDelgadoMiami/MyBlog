@@ -36,8 +36,8 @@ runButton = "Start Rails Server"
 [[workflows.workflow]]
 name = "Start Rails Server"
 author = 23038978
-mode = "sequential"
+mode = "parallel"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "bundle exec rails server --binding=0.0.0.0 --port=3000"
+args = "rails server --binding=0.0.0.0 --port=3000"
