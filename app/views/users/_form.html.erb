@@ -23,15 +23,22 @@
     <div class= "row-6">    
       <%= form.text_field :email %>
     </div>
-  
+
     <div class= "row">
       <%= form.label :Country, style: "display: block" %>
     </div>
-        
+
     <div class= "form-group col-md-4">    
       <%= form.select :location_id, @locations.all.collect {|p| [ p.name, p.id ] } %> <!-- needs to fix for errors-->
     </div>
-  
+
+  <div class="form-group row">
+    <%= form.label :password, class: "col-2 col-form-label text-light" %>
+    <div class="col-10">
+      <%= form.password_field :password, class: "form-control shadow rounded", placeholder: "Choose a password" %>
+    </div>
+  </div>
+
   <div class="submit">
     <%= form.submit :Submit, class: 'btn btn-success'  %>
   </div>
