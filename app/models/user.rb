@@ -1,6 +1,4 @@
 class User < ApplicationRecord
-  has_secure_password
-
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.freeze
 
   has_many :posts, dependent: :destroy
@@ -12,6 +10,11 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :email, presence: true, length: { minimum: 5, maximum: 255 }, format: { with: VALID_EMAIL_REGEX }, uniqueness: true
   validates :username, presence: true, uniqueness: true, length: { minimum: 3, maximum: 25 }
+  validates :password, presence: true, length: { minimum: 6 }
+
+  def authenticate(attempted_password)
+    attempted_password == password
+  end
 
   scope :search, ->(query) { where('name LIKE :query OR email LIKE :query OR username LIKE :query', query: "%#{query}%") }
 
