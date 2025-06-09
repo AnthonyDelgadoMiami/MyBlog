@@ -1,16 +1,17 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update]
-  before_action :require_user, except: [:new, :create, :show]
-  before_action :require_same_user, only: [:edit, :update]
+  before_action :set_user, only: %i[show edit update]
+  before_action :require_user, except: %i[new create show]
+  before_action :require_same_user, only: %i[edit update]
 
   def index
     @users = User.all
-
-    if params[:search] && (params[:search] != '')
-      @users = @users.search(params[:search])
+    @users = @users.where('name LIKE ?', "%#{params[:search]}%") if params[:search].present?
+    if current_user
+      @users = @users.where.not(id: current_user.id)
+      @users = @users.order(:name)
+    else
+      @users = @users.order(:name)
     end
-
-    @users = @users.order(:name)
   end
 
   def show
@@ -21,14 +22,13 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @user = User.new(user_params)
     if @user.save
       session[:user_id] = @user.id
-      flash[:notice] = 'Welcome to the social platform!'
+      flash[:notice] = 'Welcome to MyBlog!'
       redirect_to root_path
     else
       render 'new'
@@ -36,18 +36,32 @@ class UsersController < ApplicationController
   end
 
   def update
-    # Remove password from params if it's blank
     update_params = user_params
-    if update_params[:password].blank?
-      update_params = update_params.except(:password)
-    end
-    
+    update_params = update_params.except(:password) if update_params[:password].blank?
+
     if @user.update(update_params)
-      flash[:notice] = "Your account was updated successfully"
+      flash[:notice] = 'Your account was updated successfully'
       redirect_to @user
     else
       render 'edit'
     end
+  end
+
+  def follow_user
+    user_to_follow = User.find(params[:id])
+    current_user.follow(user_to_follow)
+    flash[:notice] = "You are now following #{user_to_follow.name}."
+    redirect_to users_path
+  end
+
+  def following
+    @user = User.find(params[:id])
+    @following = @user.following
+  end
+
+  def followers
+    @user = User.find(params[:id])
+    @followers = @user.followers
   end
 
   private
@@ -62,7 +76,7 @@ class UsersController < ApplicationController
 
   def require_same_user
     if current_user != @user
-      flash[:alert] = "You can only edit your own account"
+      flash[:alert] = 'You can only edit your own account'
       redirect_to @user
     end
   end
