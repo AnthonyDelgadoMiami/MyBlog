@@ -48,6 +48,9 @@ gem 'jquery-rails', '~> 4.4'
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
 
+# Use bcrypt for password hashing
+gem 'bcrypt', '~> 3.1.7'
+
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 # gem 'sweetalert2-rails'
