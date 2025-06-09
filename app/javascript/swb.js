@@ -15,7 +15,7 @@ window.addEventListener('load', event => {
   }
 });
 
-function confirmDelete() {
+function confirmDelete(event) {
   event.preventDefault()
 
   Swal.fire({
@@ -48,7 +48,7 @@ window.addEventListener('load', event => {
   }
 });
 
-function savedWork() {
+function savedWork(event) {
   event.preventDefault()
   
   Swal.fire({
