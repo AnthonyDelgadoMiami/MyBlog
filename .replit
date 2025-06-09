@@ -29,3 +29,15 @@ start = "solargraph stdio"
 [[ports]]
 localPort = 3000
 externalPort = 80
+
+[workflows]
+runButton = "Start Rails Server"
+
+[[workflows.workflow]]
+name = "Start Rails Server"
+author = 23038978
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "rails server --binding=0.0.0.0 --port=3000"
