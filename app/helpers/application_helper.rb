@@ -1,3 +1,5 @@
+require 'digest'
+
 module ApplicationHelper
   def toggle_direction(column)
     if @sort_column == column && @sort_direction == 'asc'
